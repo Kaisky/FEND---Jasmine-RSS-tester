@@ -1,4 +1,4 @@
-# FEND---Jasmine-RSS-tester
+# FEND-Jasmine-RSS-tester
 
 ## This is a unit tests suit built with Jasmin - refernce to [Jasmin Documenataion](https://jasmine.github.io/2.1/introduction.html)
 
