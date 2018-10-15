@@ -5,6 +5,7 @@
  * use of. It also uses the Handlebars templating library and
  * jQuery.
  */
+let clicked = 0;
 
 // The names and URLs to all of the feeds we'd like available.
 var allFeeds = [
@@ -40,7 +41,7 @@ function init() {
  * This function all supports a callback as the second parameter
  * which will be called after everything has run successfully.
  */
- function loadFeed(id, cb) {
+ function loadFeed(id, cb, done) {
      var feedUrl = allFeeds[id].url,
          feedName = allFeeds[id].name;
 
@@ -93,7 +94,7 @@ google.setOnLoadCallback(init);
  * until the DOM is ready.
  */
 $(function() {
-    var container = $('.feed'),
+    let container = $('.feed'),
         feedList = $('.feed-list'),
         feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html()),
         feedId = 0,
