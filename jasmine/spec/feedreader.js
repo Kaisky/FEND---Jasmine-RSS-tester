@@ -8,7 +8,7 @@
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
  */
-$(function() {
+$(() => {
     /* This is our first test suite - a test suite just contains
     * a related set of tests. This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
@@ -36,7 +36,7 @@ $(function() {
             for (feed of allFeeds){
                 expect(feed.url).toBeDefined()
             }
-        })
+        });
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
@@ -47,7 +47,7 @@ $(function() {
                 expect(feed.name).toBeDefined();
                 expect(feed.name.length).not.toBe(0);
             }
-        })
+        });
     });
 
 
@@ -61,7 +61,7 @@ $(function() {
          */
         it('is hidden by default', () => {
             expect(menuHidden.hasClass('menu-hidden')).toBe(true);
-        })
+        });
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
@@ -74,10 +74,13 @@ $(function() {
             $('.menu-icon-link').trigger('click'); // hide menu 
             expect($('body').hasClass('menu-hidden')).toBe(true);
          });
-    })
+    });
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', () => {
-        let feedList = $('.feed-list');
+        
+        beforeEach((done) =>{
+            loadFeed(0, done); 
+        });
 
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
@@ -86,16 +89,39 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
-        // it('has at least one enty in the feed', () => {
-        //     expect(success.entriesLen >= 1).toBe(true);
-        //     done();
-        // });
+        it('have at least one feed', (done) =>{
+            expect($('.feed .entry').length).toBeGreaterThan(0);
+            done();
+        });
+
+    });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', () =>{
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-    })
-}());
+        let initFeed;
+        beforeEach((done) => {
+          loadFeed(0, () => {
+            initFeed = $(".feed").html();
+    
+            loadFeed(1, () => {
+              done();
+            });
+          });
+        });
+    
+        // Make sure when new feed is loaded using loadFeed function,
+        // the content changes
+        it("changes its loaded content", (done) => {
+          let newFeed = $(".feed").html();
+          expect(initFeed).not.toBe(newFeed);
+          done();
+        });
+    });
+
+})()
+
